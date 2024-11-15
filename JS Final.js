@@ -14,7 +14,7 @@ const eventList = document.createElement('ul');
 const viewWindow = document.getElementById('viewWindow');
 const editWindow = document.getElementById('editWindow');
 const mapDiv = document.getElementById('mapDiv');
-const key = '322a4728085a57d89e0433038a722e53';
+const key = '';
 var map = null;
 
 loadEvent();
