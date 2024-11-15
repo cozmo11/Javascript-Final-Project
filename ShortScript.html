@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>My short script</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+    <link rel="stylesheet" href="https://cdn.rawgit.com/Chalarangelo/mini.css/v3.0.1/dist/mini-default.min.css">
+    <style>
+        /* Need to give the mapid a size to actually show */
+        #mapid {
+            width: 600px;
+            height: 600px;
+        }
+
+        body {
+            margin: 20px;
+            
+        }
+    </style>
+</head>
+<body>
+    <input type="text" id="cityInput" placeholder="Enter city name">
+    <button onclick="showMap()">Show Map</button>
+    <div id="mapid"><div>
+    <!-- Needed to put this here to have L avaiable. -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+    <script>
+
+        var map = null; // Thie map needs to be global to stick around
+
+        function showMap() {
+            var city = document.getElementById('cityInput').value;
+
+            // If Map exists, remove the existing mapContainer.
+            if(map) {
+                map.remove();
+            }
+            
+            // rebuild the mapContainer
+            map = L.map('mapid').setView([0, 0], 1); // Initial view
+
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+            }).addTo(map);    
+
+            // Use a geocoding service to get coordinates for the city
+            // This example uses Nominatim, but you can use other services
+            fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${city}`)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.length > 0) {
+                        var latlng = [data[0].lat, data[0].lon];
+                        map.setView(latlng, 13); // Adjust zoom level as needed
+                        L.marker(latlng).addTo(map);
+                    } else {
+                        alert('City not found');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error fetching coordinates:', error);
+                    alert('Error fetching coordinates');
+                });
+        }
+    </script>
+</body>
+</html>
