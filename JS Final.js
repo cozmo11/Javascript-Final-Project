@@ -14,7 +14,7 @@ const eventList = document.createElement('ul');
 const viewWindow = document.getElementById('viewWindow');
 const editWindow = document.getElementById('editWindow');
 const mapDiv = document.getElementById('mapDiv');
-const key = '';
+const key = ''; // Needs a uniqie key from Openweather API//
 var map = null;
 
 loadEvent();
